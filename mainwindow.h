@@ -7,6 +7,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QGridLayout>
+#include <QListWidgetItem>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -26,13 +27,19 @@ private slots:
     void on_loginButton_clicked();
     void on_sendMsgButton_clicked();
     void on_lineEdit_returnPressed();
+    void on_lineUsername_returnPressed();
+
+    void on_lineUsername_textEdited(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;
     QTcpSocket* socket;
     QByteArray MessageData;
-    void SendToServer(QString name, QString str);
+    void SendToServer(QString name, QString str, QString info);
     quint16 nextBlockSize;
+    QString currentRecipient; // текущий получатель
+    bool isLoged = false;
+    QVector <QString> usersOnline;
 
 };
 

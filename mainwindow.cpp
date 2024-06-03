@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
     // создаем сокет и соединяем его с сигналами программы
     socket = new QTcpSocket(this);
     connect(socket, &QTcpSocket::readyRead, this, &MainWindow::slotReadyRead);
@@ -20,25 +21,19 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Устанавливаем текущую страницу
     ui->stackedWidget->setCurrentWidget(ui->widgetLogin); // Показываем первую страницу
-
+    ui->usernameBanLabel->hide();
 }
 
 MainWindow::~MainWindow() {
     delete ui;
 }
 
-void MainWindow::on_loginButton_clicked()
-{
-    socket->connectToHost("127.0.0.1", 2323);
-    ui->stackedWidget->setCurrentWidget(ui->widgetChat); // Показываем первую страницу
-}
-
-void MainWindow::SendToServer(QString username, QString message)
+void MainWindow::SendToServer(QString username, QString message, QString info)
 {
     MessageData.clear();
     QDataStream out(&MessageData, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_6_2);
-    out << quint16(0) << QTime::currentTime() << username << message;
+    out << quint16(0) << QTime::currentTime() << username << message << info;
     out.device()->seek(0);
     out << quint16(MessageData.size() - sizeof(quint16));
     socket->write(MessageData);
@@ -47,6 +42,8 @@ void MainWindow::SendToServer(QString username, QString message)
 
 void MainWindow::slotReadyRead()
 {
+    QVector <QString> reservUsersOnlise = usersOnline;
+    usersOnline.clear();
     QDataStream in(socket);
     in.setVersion(QDataStream::Qt_6_2);
     if(in.status() == QDataStream::Ok){
@@ -63,25 +60,85 @@ void MainWindow::slotReadyRead()
             if(socket->bytesAvailable() < nextBlockSize){
                 break;
             }
-            QString username, message;
+            QString username, message, info;
             QTime time;
-            in >> time >> username >> message;
+            in >> time >> username >> message >> info;
             nextBlockSize = 0;
-            ui->textBrowser->append("[" + time.toString() + "] " + username + ": " + message);
+            // выводим сообщение
+            // если пришло сообщение о новом пользователе
+            if (info == "log") {
+                // Добавляем нового пользователя в список
+                usersOnline.push_back(username);
+            } else {
+                // Выводим обычное сообщение
+                ui->textBrowser->append(username + " " + time.toString());
+                ui->textBrowser->append(message);
+                ui->textBrowser->append("");
+                usersOnline = reservUsersOnlise;
+            }
         }
     }
     else{
         ui->textBrowser->append("Read error...");
     }
+
+    // Очистка списка пользователей
+    ui->userListWidget->clear();
+
+    // Обновленного списка пользователей
+    for (int i = 0; i <usersOnline.size(); i++) {
+        QString param = usersOnline[i];
+        if(usersOnline[i] == ui->lineUsername->text()){
+            param = usersOnline[i] + " (Вы)";
+        }
+        QListWidgetItem *item = new QListWidgetItem(param);
+        ui->userListWidget->insertItem(i, item);
+    }
+}
+
+void MainWindow::on_loginButton_clicked()
+{
+    //адрес сервера для мессенджера
+    if(ui->lineUsername->text() != ""){
+        socket->connectToHost("127.0.0.1", 2323);
+        ui->stackedWidget->setCurrentWidget(ui->widgetChat); // Показываем вторую страницу(чат)
+        SendToServer(ui->lineUsername->text(), "newUserLoged", "log");
+    }
+    else{
+        ui->usernameBanLabel->show();
+    }
+}
+
+void MainWindow::on_lineUsername_returnPressed()
+{
+    if(ui->lineUsername->text() != ""){
+        socket->connectToHost("127.0.0.1", 2323);
+        ui->stackedWidget->setCurrentWidget(ui->widgetChat); // Показываем вторую страницу(чат)
+        SendToServer(ui->lineUsername->text(), "newUserLoged", "log");
+    }
+    else{
+        ui->usernameBanLabel->show();
+    }
 }
 
 void MainWindow::on_sendMsgButton_clicked()
 {
-    SendToServer(ui->lineUsername->text(), ui->lineEdit->text());
+    if(ui->lineEdit->text() != ""){
+        SendToServer(ui->lineUsername->text(), ui->lineEdit->text(), "msg");
+    }
 }
 
 void MainWindow::on_lineEdit_returnPressed()
 {
-    SendToServer(ui->lineUsername->text(), ui->lineEdit->text());
+    if(ui->lineEdit->text() != ""){
+        SendToServer(ui->lineUsername->text(), ui->lineEdit->text(), "msg");
+    }
+}
+
+
+
+void MainWindow::on_lineUsername_textEdited(const QString &arg1)
+{
+    ui->usernameBanLabel->hide();
 }
 

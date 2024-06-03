@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>482</width>
-    <height>474</height>
+    <width>735</width>
+    <height>484</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,12 +19,12 @@
      <rect>
       <x>30</x>
       <y>10</y>
-      <width>421</width>
+      <width>701</width>
       <height>411</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="page">
      <widget class="QWidget" name="widgetLogin" native="true">
@@ -32,18 +32,27 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>411</width>
+        <width>631</width>
         <height>401</height>
        </rect>
       </property>
       <widget class="QPushButton" name="loginButton">
        <property name="geometry">
         <rect>
-         <x>90</x>
-         <y>180</y>
+         <x>210</x>
+         <y>190</y>
          <width>201</width>
          <height>41</height>
         </rect>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(120, 183, 140);
+border-radius: 20px;        
+border: 2px solid #094065</string>
        </property>
        <property name="text">
         <string>Login</string>
@@ -52,11 +61,77 @@
       <widget class="QLineEdit" name="lineUsername">
        <property name="geometry">
         <rect>
-         <x>90</x>
+         <x>210</x>
          <y>140</y>
          <width>201</width>
-         <height>24</height>
+         <height>41</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-radius: 20px;                 
+border: 2px solid #094065;</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="loginLabel">
+       <property name="geometry">
+        <rect>
+         <x>157</x>
+         <y>148</y>
+         <width>91</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(120, 183, 140);</string>
+       </property>
+       <property name="text">
+        <string>Login</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="usernameBanLabel">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>216</x>
+         <y>152</y>
+         <width>81</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>IBeamCursor</cursorShape>
+       </property>
+       <property name="mouseTracking">
+        <bool>true</bool>
+       </property>
+       <property name="tabletTracking">
+        <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(200, 10, 10);</string>
+       </property>
+       <property name="text">
+        <string>Wrong name</string>
        </property>
       </widget>
      </widget>
@@ -67,7 +142,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>421</width>
+        <width>671</width>
         <height>421</height>
        </rect>
       </property>
@@ -75,33 +150,131 @@
        <property name="geometry">
         <rect>
          <x>320</x>
-         <y>370</y>
+         <y>380</y>
          <width>80</width>
          <height>24</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(120, 183, 140);
+border-radius: 10px;               
+border: 2px solid #094065</string>
+       </property>
        <property name="text">
-        <string>-&gt;</string>
+        <string>=&gt;</string>
        </property>
       </widget>
       <widget class="QTextBrowser" name="textBrowser">
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>30</y>
+         <y>40</y>
          <width>381</width>
          <height>321</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-radius: 5px;               
+border: 2px solid #094065</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEdit">
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>370</y>
+         <y>380</y>
          <width>291</width>
          <height>24</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-radius: 10px;               
+border: 2px solid #094065</string>
+       </property>
+      </widget>
+      <widget class="QListWidget" name="userListWidget">
+       <property name="geometry">
+        <rect>
+         <x>440</x>
+         <y>40</y>
+         <width>191</width>
+         <height>321</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-radius: 5px;               
+border: 2px solid #094065</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="recipientUsernameLabel">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>20</y>
+         <width>181</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(120, 183, 140);</string>
+       </property>
+       <property name="text">
+        <string>Чат</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="membersLabel">
+       <property name="geometry">
+        <rect>
+         <x>440</x>
+         <y>20</y>
+         <width>181</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(120, 183, 140);</string>
+       </property>
+       <property name="text">
+        <string>Пользователи</string>
        </property>
       </widget>
      </widget>
@@ -113,7 +286,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>482</width>
+     <width>735</width>
      <height>21</height>
     </rect>
    </property>
