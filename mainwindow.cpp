@@ -63,7 +63,7 @@ void MainWindow::slotReadyRead()
             QString username, message, info;
             QTime time;
             in >> time >> username >> message >> info;
-            nextBlockSize = 0;
+            nextBlockSize = 0; // блок для сообщений(до 2байт)
             // выводим сообщение
             // если пришло сообщение о новом пользователе
             if (info == "log") {
@@ -136,9 +136,14 @@ void MainWindow::on_lineEdit_returnPressed()
 }
 
 
-
-void MainWindow::on_lineUsername_textEdited(const QString &arg1)
+void MainWindow::on_lineUsername_textEdited()
 {
     ui->usernameBanLabel->hide();
+}
+
+
+void MainWindow::on_userListWidget_itemClicked(QListWidgetItem *item)
+{
+    SendToServer(ui->lineUsername->text(), item->text(), "usersListClicked");
 }
 

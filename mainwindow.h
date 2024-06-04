@@ -28,8 +28,8 @@ private slots:
     void on_sendMsgButton_clicked();
     void on_lineEdit_returnPressed();
     void on_lineUsername_returnPressed();
-
-    void on_lineUsername_textEdited(const QString &arg1);
+    void on_lineUsername_textEdited();
+    void on_userListWidget_itemClicked(QListWidgetItem *item);
 
 private:
     Ui::MainWindow *ui;
