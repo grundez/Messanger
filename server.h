@@ -18,10 +18,12 @@ private:
     int usersOnlineCounter = 0;
     QVector<QTcpSocket*> Sockets;
     QVector<QString> users;
+    QVector<QVector<QString>> messages;
     QByteArray MessageData;
     void SendToClient(QString name, QString str);
     quint16 nextBlockSize;
     void SendUserJoinedNotification(QVector<QString> usersList);
+    void SendUserMessages(QString user1, QString user2);
 
 public slots:
     void incomingConnection(qintptr socketDescriptor);

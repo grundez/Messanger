@@ -40,6 +40,20 @@ void Server::SendUserJoinedNotification(QVector<QString> usersList)
     }
 }
 
+void Server::SendUserMessages(QString user1, QString user2)
+{
+    MessageData.clear();
+    QDataStream out(&MessageData, QIODevice::WriteOnly);
+    out.setVersion(QDataStream::Qt_6_2);
+    QString info = "usersListClicked";
+
+    out.device()->seek(0);
+    out << quint16(MessageData.size() - sizeof(quint16));
+    for (int i = 0; i < Sockets.size(); ++i) {
+        Sockets[i]->write(MessageData);
+    }
+}
+
 void Server::slotReadyRead(){
     socket = (QTcpSocket*)sender();
     QDataStream in(socket);
@@ -69,8 +83,11 @@ void Server::slotReadyRead(){
             in >> time >> username >> message >> info;
             qDebug() << info << " - " << username << ": " << message << " " << time;
             nextBlockSize = 0;
-            if(info != "log"){
+            if(info == "msg"){
                 SendToClient(username, message);
+            }
+            else if(info == "usersListClicked"){
+                //SendUserMessages(username, message, )
             }
             else{
                 qDebug() << "New user: " << username;
@@ -98,3 +115,5 @@ void Server::SendToClient(QString username, QString message)
         Sockets[i]->write(MessageData);
     }
 }
+
+
